@@ -1,0 +1,27 @@
+{
+  "name": "reposter",
+  "version": "1.0.0",
+  "description": "Easily prepare & schedule your social media reposting campaigns.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beautiful-javascript/reposter.git"
+  },
+  "keywords": [
+    "reposting",
+    "social-media",
+    "twitter",
+    "facebook",
+    "buffer",
+    "cli"
+  ],
+  "author": "Marcin Grzywaczewski (killavus@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beautiful-javascript/reposter/issues"
+  },
+  "homepage": "https://github.com/beautiful-javascript/reposter#readme"
+}
