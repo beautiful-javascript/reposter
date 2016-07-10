@@ -23,5 +23,13 @@
   "bugs": {
     "url": "https://github.com/beautiful-javascript/reposter/issues"
   },
-  "homepage": "https://github.com/beautiful-javascript/reposter#readme"
+  "homepage": "https://github.com/beautiful-javascript/reposter#readme",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "request": "^2.73.0",
+    "xml-stream": "^0.4.5"
+  },
+  "bin": {
+    "reposter": "./bin/reposter.js"
+  }
 }
