@@ -1,4 +1,4 @@
-function fileFetchStrategy(options) {
+function fileFetchStrategy(options, eventBus) {
   return {
     fetch() {
       return options;

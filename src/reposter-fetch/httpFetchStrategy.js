@@ -12,13 +12,17 @@ const pickOptions = ({ uri, method }) => {
   return { uri, method };
 };
 
-function httpFetchStrategy(options) {
+function httpFetchStrategy(options, eventBus, sourceID) {
+  eventBus.emit('sourceStateChange', sourceID, { type: 'http_fetch', 
+                                                 total: 1 });
+
   return {
     fetch() { 
       return makeRequest({
         uri: options.uri,
         method: options.method
       }).then(([request, body]) => {
+        eventBus.emit('sourceStateProgress', sourceID);
         return body;
       }).catch(error => {
         throw error;

@@ -10,15 +10,19 @@ const pickOptions = options => {
     minPriority: 0.8,
   };
 
-  return { ...defaults, ...pick(options, ['sitemapLimit', 'minPriority']) };
+  return { ...defaults, ...pick(options, ['sitemapLimit', 
+                                          'minPriority']) };
 };
 
-function sitemapDataParser(options) {
+function sitemapDataParser(options, eventBus, sourceID) {
   return {
     parse(data) { 
       const dataStream = streamify(data);
       const parser = new XMLStream(dataStream);
       const priorityThreshold = parseFloat(options.minPriority);
+
+      eventBus.emit('sourceStateChange', sourceID, 
+                    { type: 'sitemap_parse', total: 1 });
 
       return new Promise((resolve, reject) => {
         let pendingURIs = [];
@@ -38,9 +42,17 @@ function sitemapDataParser(options) {
         parser.on('error', err => { reject(err); });
 
         parser.on('end', () => {
+          eventBus.emit('sourceStateProgress', sourceID);
+          eventBus.emit('sourceStateChange', sourceID,
+                        { type: 'title_fetch',
+                          total: pendingURIs.length });
+
+
           Promise.reduce(pendingURIs, (partialResult, uri) => {
             return makeRequest({ uri, method: 'get' }).then(([request, body]) => {
               const title = stripHTML(body.match(/<title>(.*)\<\/title>/)[1]);
+              eventBus.emit('sourceStateProgress', sourceID);
+
               return [...partialResult, document(uri, title)];
             }); 
           }, []).then(resolve);

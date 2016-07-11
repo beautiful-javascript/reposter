@@ -46,4 +46,34 @@ export function range(s, e) {
     res.push(i);
   }
   return res;
+};
+
+export function cycled(data) {
+  let currentIndex = 0;
+  const elements = data;
+
+  return {
+    next() { 
+      const result = elements[currentIndex]; 
+      currentIndex += 1;
+      currentIndex %= elements.length;
+      return result; 
+    }
+  };
+};
+
+export function shuffle(array) {
+	let counter = array.length;
+
+	while (counter > 0) {
+			let index = Math.floor(Math.random() * counter);
+
+			counter--;
+
+			let temp = array[counter];
+			array[counter] = array[index];
+			array[index] = temp;
+	}
+
+	return array;
 }

@@ -2,10 +2,13 @@ import Promise from 'bluebird';
 
 function fetcher() {
   return {
-    fetch(sources) { 
+    fetch(sources, eventBus) { 
       return Promise.reduce(sources, (partialResult, source) => {
-        const fetchStrategy = source.fetchStrategy(source.fetchStrategyOptions);
-        const parser = source.parser(source.parserOptions);
+        const fetchStrategy = source.fetchStrategy(source.fetchStrategyOptions, 
+                                                   eventBus, source.id);
+        const parser = source.parser(source.parserOptions,
+                                     eventBus,
+                                     source.id);
 
         return fetchStrategy.fetch().
                  then(parser.parse).

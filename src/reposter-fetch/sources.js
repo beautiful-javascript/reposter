@@ -1,5 +1,4 @@
 import * as qs from 'querystring';
-import uuid from 'node-uuid';
 
 import sitemapDataParser from './sitemapDataParser';
 import httpFetchStrategy from './httpFetchStrategy';
@@ -7,7 +6,7 @@ import fileFetchStrategy from './fileFetchStrategy';
 
 import source from './source';
 
-function sources() {
+function sources(eventBus) {
   const typeToParser = {
     sitemap: sitemapDataParser,
   };
@@ -41,7 +40,9 @@ function sources() {
         const parserOptions = parser.pickOptions(options);
         const fetchStrategyOptions = fetchStrategy.pickOptions(options);
 
-        return source(uuid.v4(), 
+				eventBus.emit('initializeSource', sourceString);
+
+        return source(sourceString, 
                       fetchStrategyOptions,
                       parserOptions,
                       fetchStrategy,
